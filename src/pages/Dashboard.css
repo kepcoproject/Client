@@ -1,0 +1,140 @@
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 36px 0 14px;
+}
+
+.section-head h2 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.waste-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.room-card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--line);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+}
+
+.room-card:hover {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 28px rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+  border-color: #d8d8db;
+}
+
+.room-card.waste {
+  border-color: rgba(255, 59, 48, 0.35);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.room-card.waste:hover {
+  border-color: rgba(255, 59, 48, 0.55);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: var(--shadow-card);
+  }
+  50% {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 30px rgba(255, 59, 48, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-card.waste {
+    animation: none;
+  }
+}
+
+.room-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.room-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.room-power {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.room-power small {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sub);
+  margin-left: 2px;
+}
+
+.room-card.waste .room-power {
+  color: var(--red);
+}
+
+.warn-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--red);
+  font-weight: 600;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 40px;
+  text-align: center;
+  color: var(--sub);
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rooms-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

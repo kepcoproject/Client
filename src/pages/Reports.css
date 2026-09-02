@@ -1,0 +1,36 @@
+.report-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.report-footnote {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--sub);
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+}
+
+.stats-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 640px) {
+  .stats-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
