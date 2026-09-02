@@ -1,0 +1,67 @@
+.page-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-bar select {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: var(--r-sm);
+}
+
+.link-btn:hover {
+  background: var(--blue-dim);
+}
+
+.link-btn.danger {
+  color: var(--red);
+}
+
+.link-btn.danger:hover {
+  background: var(--red-dim);
+}
+
+.link-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: none;
+}
+
+.role-select {
+  height: 30px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-size: 12.5px;
+}
