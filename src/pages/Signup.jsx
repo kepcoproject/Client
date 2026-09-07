@@ -13,7 +13,6 @@ export default function Signup() {
     passwordConfirm: "",
     name: "",
     email: "",
-    inviteCode: "",
   });
   const [idStatus, setIdStatus] = useState(null); // null | "checking" | "available" | "taken"
   const [error, setError] = useState("");
@@ -102,11 +101,6 @@ export default function Signup() {
         <label className="field">
           <span>이메일</span>
           <input type="email" value={form.email} onChange={set("email")} />
-        </label>
-
-        <label className="field">
-          <span>초대 코드</span>
-          <input value={form.inviteCode} onChange={set("inviteCode")} />
         </label>
 
         {error && <div className="login-error">{error}</div>}
