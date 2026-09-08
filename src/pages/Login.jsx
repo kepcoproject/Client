@@ -19,6 +19,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // 회원가입·비밀번호 재설정이 여기로 넘겨주는 안내. 지금까지 아무 데서도
+  // 읽지 않아서 "가입 신청이 완료되었습니다" 가 화면에 뜬 적이 없었다.
+  const notice = location.state?.notice;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,11 +71,16 @@ export default function Login() {
           />
         </label>
 
+        {notice && !error && <div className="login-notice">{notice}</div>}
         {error && <div className="login-error">{error}</div>}
 
         <Button type="submit" loading={loading} style={{ width: "100%", marginTop: 4 }}>
           로그인
         </Button>
+
+        <p className="login-footer">
+          <Link to="/forgot-password">비밀번호를 잊으셨나요?</Link>
+        </p>
 
         <p className="login-footer">
           계정이 없으신가요? <Link to="/signup">회원가입</Link>

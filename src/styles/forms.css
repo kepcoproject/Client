@@ -37,6 +37,16 @@
   margin-bottom: 14px;
 }
 
+/* 가입 완료·메일 발송처럼 잘 끝났다는 알림. login-error 와 짝을 이룬다. */
+.login-notice {
+  font-size: 13px;
+  color: var(--green, #15803d);
+  background: var(--green-dim, #dcfce7);
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  margin-bottom: 14px;
+}
+
 .checkbox-row {
   display: flex;
   flex-wrap: wrap;

@@ -39,7 +39,20 @@ export default function Users() {
   const activeColumns = [
     { key: "loginId", header: "아이디" },
     { key: "name", header: "이름" },
-    { key: "email", header: "이메일" },
+    {
+      key: "email",
+      header: "이메일",
+      render: (row) => (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          {row.email}
+          {/* 인증되지 않은 주소는 비밀번호 재설정 링크를 받을 수 없다.
+              승인하기 전에 관리자가 알아야 하는 정보다. */}
+          <Badge tone={row.emailVerified ? "green" : "neutral"}>
+            {row.emailVerified ? "인증됨" : "미인증"}
+          </Badge>
+        </span>
+      ),
+    },
     {
       key: "role",
       header: "권한",
@@ -64,7 +77,20 @@ export default function Users() {
   const pendingColumns = [
     { key: "loginId", header: "아이디" },
     { key: "name", header: "이름" },
-    { key: "email", header: "이메일" },
+    {
+      key: "email",
+      header: "이메일",
+      render: (row) => (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          {row.email}
+          {/* 인증되지 않은 주소는 비밀번호 재설정 링크를 받을 수 없다.
+              승인하기 전에 관리자가 알아야 하는 정보다. */}
+          <Badge tone={row.emailVerified ? "green" : "neutral"}>
+            {row.emailVerified ? "인증됨" : "미인증"}
+          </Badge>
+        </span>
+      ),
+    },
     {
       key: "requestedAt",
       header: "신청일",

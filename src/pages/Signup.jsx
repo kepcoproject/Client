@@ -47,7 +47,11 @@ export default function Signup() {
     try {
       await signup(form);
       navigate("/login", {
-        state: { notice: "가입 신청이 완료되었습니다. 관리자 승인 후 로그인할 수 있습니다." },
+        state: {
+          notice:
+            "가입 신청이 완료되었습니다. 보내드린 메일에서 이메일 인증을 마친 뒤, " +
+            "관리자 승인이 끝나면 로그인할 수 있습니다.",
+        },
       });
     } catch (err) {
       // 서버가 사유를 정확히 알려준다 (이미 가입된 이메일, 비밀번호 길이 등).
