@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Zap } from "lucide-react";
 import { checkLoginId, signup } from "../api/auth";
+import { ApiError } from "../api/client";
 import Button from "../components/common/Button";
 import "./Login.css";
 
@@ -48,8 +49,14 @@ export default function Signup() {
       navigate("/login", {
         state: { notice: "가입 신청이 완료되었습니다. 관리자 승인 후 로그인할 수 있습니다." },
       });
-    } catch {
-      setError("회원가입에 실패했습니다. 입력값을 확인해주세요");
+    } catch (err) {
+      // 서버가 사유를 정확히 알려준다 (이미 가입된 이메일, 비밀번호 길이 등).
+      // 전부 같은 문구로 덮으면 무엇을 고쳐야 하는지 알 수 없다.
+      setError(
+        err instanceof ApiError && err.message
+          ? err.message
+          : "회원가입에 실패했습니다. 입력값을 확인해주세요"
+      );
     } finally {
       setLoading(false);
     }
