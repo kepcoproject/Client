@@ -78,6 +78,60 @@
   margin-top: 6px;
 }
 
+/* 입력칸 옆에 버튼을 붙일 때 (회원가입 인증번호 받기·확인) */
+.field-row {
+  display: flex;
+  gap: 8px;
+}
+
+.field-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-row .btn {
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+/* .field span 규칙이 버튼 안의 로딩 표시까지 밀어내지 않게 */
+.field-row .btn .spinner {
+  margin: 0;
+}
+
+.field input[readonly] {
+  color: var(--sub);
+}
+
+/* 인증번호 칸 오른쪽 안에 남은 시간을 띄운다 */
+.field-timer {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.field-timer input {
+  padding-right: 60px;
+  letter-spacing: 0.15em;
+}
+
+/* 숫자 사이만 벌린다. 안내 문구까지 벌어지면 읽기 어렵다. */
+.field-timer input:placeholder-shown {
+  letter-spacing: normal;
+}
+
+.field-timer em {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-style: normal;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--red);
+  pointer-events: none;
+}
+
 .field-hint.hint-neutral {
   color: var(--sub);
 }

@@ -324,9 +324,27 @@ export const handlers = [
     return ok(null);
   }),
 
-  // A-05 회원가입
-  http.post("/auth/signup", async () => {
-    return ok({ id: "u-new", role: "PENDING" });
+  // A-12 회원가입 인증번호 보내기. 목 서버는 메일을 못 보내므로 번호는 늘 123456 이다.
+  http.post("/auth/email/code", async ({ request }) => {
+    const { email } = await request.json();
+    if (email === "demo@enersave.io") return fail(409, "E4090", "이미 가입된 이메일입니다");
+    return ok({ sent: true, expiresIn: 600, resendAfter: 60 });
+  }),
+
+  // A-13 인증번호 확인
+  http.post("/auth/email/code/verify", async ({ request }) => {
+    const { code } = await request.json();
+    if (code !== "123456") {
+      return fail(400, "E4000", "인증번호가 틀렸습니다 (목 서버의 번호는 123456)");
+    }
+    return ok({ verified: true, emailToken: "mock-email-token" });
+  }),
+
+  // A-05 회원가입 - 인증번호를 맞혀 받은 emailToken 이 있어야 받는다
+  http.post("/auth/signup", async ({ request }) => {
+    const body = await request.json();
+    if (!body.emailToken) return fail(400, "E4004", "이메일 인증을 먼저 해 주세요");
+    return ok({ userId: "u-new", status: "PENDING", emailVerified: true });
   }),
 
   // E-03 실시간 전력

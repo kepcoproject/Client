@@ -28,10 +28,11 @@ export const forgotPassword = (email) =>
 export const resetPassword = (payload) =>
   apiClient.post("/auth/password/reset", payload, { skipAuth: true });
 
-// A-12 이메일 인증 - 메일 링크의 토큰을 확인한다
-export const verifyEmail = (token) =>
-  apiClient.post("/auth/email/verify", { token }, { skipAuth: true });
+// A-12 회원가입 인증번호 보내기 - 6자리 숫자를 메일로 보낸다
+// 응답: { sent, expiresIn(초), resendAfter(초) }
+export const sendEmailCode = (email) =>
+  apiClient.post("/auth/email/code", { email }, { skipAuth: true });
 
-// A-13 인증 메일 다시 보내기
-export const resendVerification = (email) =>
-  apiClient.post("/auth/email/resend", { email }, { skipAuth: true });
+// A-13 인증번호 확인 - 맞으면 emailToken 을 준다. 회원가입 요청에 함께 싣는다.
+export const verifyEmailCode = (email, code) =>
+  apiClient.post("/auth/email/code/verify", { email, code }, { skipAuth: true });
