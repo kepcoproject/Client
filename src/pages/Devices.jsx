@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import Table from "../components/common/Table";
 import Badge from "../components/common/Badge";
 import Button from "../components/common/Button";
 import { useDevices } from "../hooks/useDevices";
 import { useSpaces } from "../hooks/useSpaces";
-import { createDevice } from "../api/devices";
+import { createDevice, deleteDevice } from "../api/devices";
+import { ApiError } from "../api/client";
 import { formatRelativeTime } from "../utils/format";
 import DeviceFormModal from "./DeviceFormModal";
 import ApiKeyRevealModal from "./ApiKeyRevealModal";
@@ -23,6 +24,7 @@ export default function Devices() {
   const [modalOpen, setModalOpen] = useState(false);
   const [formError, setFormError] = useState("");
   const [revealKey, setRevealKey] = useState(null);
+  const [rowError, setRowError] = useState("");
 
   const spaces = spacesData?.items ?? [];
   const spaceMap = useMemo(() => new Map(spaces.map((s) => [s.spaceId, s])), [spaces]);
@@ -42,6 +44,31 @@ export default function Devices() {
   const handleCreate = (payload, resetForm) => {
     setFormError("");
     createMutation.mutate(payload, { onSuccess: () => resetForm?.() });
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteDevice,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["devices"] });
+      // 공간의 노드 수가 줄어든다. 마지막 노드를 지우면 그 공간도 삭제할 수 있게 된다.
+      queryClient.invalidateQueries({ queryKey: ["spaces"] });
+      setRowError("");
+    },
+    // 관리자가 아니면 서버가 사유를 알려준다
+    onError: (err) =>
+      setRowError(
+        err instanceof ApiError && err.message ? err.message : "노드 삭제에 실패했습니다"
+      ),
+  });
+
+  const handleDelete = (row) => {
+    // 측정 기록까지 지워져 되돌릴 수 없으니 한 번 더 묻는다
+    const confirmed = window.confirm(
+      `${row.deviceId} 노드를 삭제할까요?\n\n` +
+        "이 노드가 보낸 측정 기록도 함께 지워지고 되돌릴 수 없습니다.\n" +
+        "노드 전원이 켜져 있으면 다음 데이터가 들어올 때 다시 등록됩니다."
+    );
+    if (confirmed) deleteMutation.mutate(row.deviceId);
   };
 
   const columns = [
@@ -70,6 +97,21 @@ export default function Devices() {
       header: "마지막 수신",
       render: (row) => formatRelativeTime(row.lastSeenAt),
     },
+    {
+      key: "actions",
+      header: "",
+      width: 80,
+      render: (row) => (
+        <button
+          className="link-btn danger"
+          onClick={() => handleDelete(row)}
+          disabled={deleteMutation.isPending}
+        >
+          <Trash2 size={13} strokeWidth={2.2} />
+          삭제
+        </button>
+      ),
+    },
   ];
 
   return (
@@ -80,6 +122,12 @@ export default function Devices() {
         </h1>
         <Button onClick={() => setModalOpen(true)} icon={Plus}>노드 추가</Button>
       </div>
+
+      {rowError && (
+        <div className="login-error" style={{ marginTop: 14 }}>
+          {rowError}
+        </div>
+      )}
 
       <Table
         columns={columns}

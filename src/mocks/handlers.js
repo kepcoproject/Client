@@ -474,6 +474,16 @@ export const handlers = [
     return ok({ ...device, deviceApiKey: apiKey });
   }),
 
+  // C-04 노드 삭제
+  http.delete("/devices/:deviceId", ({ params }) => {
+    const device = DEVICES.find((d) => d.deviceId === params.deviceId);
+    if (!device) return fail(404, "E4040", "노드를 찾을 수 없습니다");
+    DEVICES = DEVICES.filter((d) => d.deviceId !== params.deviceId);
+    const space = SPACES.find((s) => s.spaceId === device.spaceId);
+    if (space && space.nodeCount > 0) space.nodeCount -= 1;
+    return ok({ deleted: true });
+  }),
+
   // --- 8단계: 공간 상세 · 그래프 (D-02, E-02) ---
   http.get("/telemetry/power-history/:spaceId", ({ params, request }) => {
     const url = new URL(request.url);
